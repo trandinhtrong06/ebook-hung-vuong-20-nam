@@ -60,7 +60,26 @@ button{font:inherit;color:inherit;cursor:pointer}
 .app[data-fx=slide] .spage.gone{transform:translateX(-18%);opacity:0}
 .app[data-fx=slide] .spage.far,.app[data-fx=slide] .spage.nxt{transform:translateX(18%);opacity:0}
 .app[data-fx=fade] .spage.gone,.app[data-fx=fade] .spage.far,.app[data-fx=fade] .spage.nxt{opacity:0;transform:scale(.96)}
-.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 22px);transform:translateX(-50%);background:rgba(0,0,0,.82);color:#fff;padding:8px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;white-space:nowrap}
+/* thanh âm thanh */
+.abarwrap{flex:none;position:relative;display:flex;justify-content:center;padding:6px 8px calc(env(safe-area-inset-bottom) + 8px);background:linear-gradient(to top,rgba(0,0,0,.25),rgba(0,0,0,0))}
+.abar{display:flex;gap:4px;align-items:center;background:rgba(10,11,15,.95);border:1px solid #2a2f44;border-radius:999px;padding:4px}
+.ab{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:#e9e6dc;height:38px;padding:0 13px;border-radius:999px;font-size:13px;white-space:nowrap}
+.ab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ab:hover{background:#1c2030}
+.ab.on{background:var(--gold);color:#241a02}
+.ab.main{font-weight:600}
+.ab[hidden]{display:none}
+.ab:focus-visible,.acfg select:focus-visible,.acfg input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.acfg{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);width:min(330px,94vw);background:#13151e;border:1px solid #2a2f44;border-radius:14px;padding:14px;display:grid;gap:12px;z-index:35;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.acfg[hidden]{display:none}
+.acfg label{display:grid;gap:6px;font-size:12px;color:var(--mute)}
+.acfg select{height:36px;background:#0d0f16;color:var(--ink);border:1px solid #2a2f44;border-radius:8px;padding:0 8px;font:14px system-ui,sans-serif;width:100%}
+.acfg input[type=range]{width:100%;accent-color:var(--gold)}
+.acfg .row{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink);font-size:14px}
+.acfg .row input{width:20px;height:20px;accent-color:var(--gold)}
+.acfg .note{font-size:11.5px;color:var(--mute);line-height:1.45;margin:0}
+@media (max-width:460px){.ab span.lb{display:none}.ab.main span.lb{display:inline}.ab{padding:0 11px}}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 78px);transform:translateX(-50%);background:rgba(0,0,0,.82);color:#fff;padding:8px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;white-space:nowrap}
 .toast.on{opacity:1}
 
 .sbook{perspective:2000px;cursor:pointer}
@@ -143,6 +162,34 @@ button{font:inherit;color:inherit;cursor:pointer}
     <button class="nav l" id="aPrev" aria-label="Trang trước"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="nav r" id="aNext" aria-label="Trang sau"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
+
+  <div class="abarwrap">
+    <div class="acfg" id="acfg" hidden>
+      <label>Giọng đọc
+        <select id="vSel" aria-label="Chọn giọng đọc"></select>
+      </label>
+      <label>Tốc độ đọc
+        <select id="rSel" aria-label="Tốc độ đọc">
+          <option value="0.8">Chậm (0.8x)</option>
+          <option value="0.9">Hơi chậm (0.9x)</option>
+          <option value="1">Bình thường (1x)</option>
+          <option value="1.15">Hơi nhanh (1.15x)</option>
+          <option value="1.3">Nhanh (1.3x)</option>
+        </select>
+      </label>
+      <label>Âm lượng nhạc nền
+        <input type="range" id="mVol" min="0" max="100" value="35" aria-label="Âm lượng nhạc nền">
+      </label>
+      <div class="row"><span>Tự lật trang khi đọc xong</span><input type="checkbox" id="autoTurn" aria-label="Tự lật trang khi đọc xong"></div>
+      <p class="note">Giọng đọc là giọng có sẵn trên thiết bị của bạn nên mỗi máy nghe khác nhau. Nếu chưa có giọng tiếng Việt, hãy cài thêm trong phần cài đặt giọng nói của hệ thống.</p>
+    </div>
+    <div class="abar" role="group" aria-label="Âm thanh">
+      <button class="ab" id="bMusic" aria-pressed="false" title="Bật/tắt nhạc nền"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg><span class="lb" id="musicTxt">Nhạc nền</span></button>
+      <button class="ab main" id="bRead" aria-pressed="false" title="Nghe đọc trang đang xem"><svg id="readIco" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg><span class="lb" id="readTxt">Nghe đọc</span></button>
+      <button class="ab" id="bStop" title="Dừng đọc" aria-label="Dừng đọc" hidden><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg></button>
+      <button class="ab" id="bAcfg" aria-expanded="false" title="Cài đặt giọng đọc và nhạc" aria-label="Cài đặt âm thanh"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -158,6 +205,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   </div>
 </aside>
 
+<script src="narration.js"></script>
 <script>
 (function(){
 "use strict";
@@ -299,6 +347,10 @@ function ui(){
   Array.prototype.forEach.call(thumbsEl.children,function(b){
     b.classList.toggle('cur', a.indexOf(+b.dataset.k)>-1);
   });
+  if (reading){
+    var vkey=a.join(',');
+    if (vkey!==readKey){ readKey=vkey; paused=false; paintAudio(); scheduleRead(); }
+  }
   try{ var n=a[a.length-1]; if (n>1&&n<28) history.replaceState(null,'','#trang-'+(a[0]>1?a[0]-1:n-1)); else history.replaceState(null,'',location.pathname+location.search); }catch(e){}
 }
 
@@ -452,6 +504,171 @@ var drawer=$('drawer'), veil=$('veil');
 function openDrawer(){ drawer.classList.add('on'); veil.classList.add('on'); drawer.setAttribute('aria-hidden','false'); ui(); }
 function closeDrawer(){ drawer.classList.remove('on'); veil.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); }
 $('bMenu').onclick=openDrawer; $('bClose').onclick=closeDrawer; veil.onclick=closeDrawer;
+
+/* ---- âm thanh: nhạc nền + giọng đọc ---- */
+var NARRATION = (typeof NARR !== 'undefined') ? NARR : {};
+var synth = window.speechSynthesis || null;
+var music = null, musicOn = false, mVol = 0.35, rate = 1, autoTurn = true, voiceName = '';
+var reading = false, paused = false, duck = false, tok = 0, chunks = [], pos = 0, readTimer = null, readKey = '', warnedVoice = false;
+try{
+  var _s = JSON.parse(localStorage.getItem('vcb-audio2') || '{}');
+  if (_s.rate) rate = _s.rate;
+  if (typeof _s.auto === 'boolean') autoTurn = _s.auto;
+  if (typeof _s.vol === 'number') mVol = _s.vol;
+  if (_s.voice) voiceName = _s.voice;
+}catch(e){}
+function saveAudio(){ try{ localStorage.setItem('vcb-audio2', JSON.stringify({rate:rate, auto:autoTurn, vol:mVol, voice:voiceName})); }catch(e){} }
+
+function applyMusicVol(){ if (music) music.volume = Math.max(0, Math.min(1, duck ? mVol*0.3 : mVol)); }
+function setMusic(on){
+  if (on){
+    if (!music){ music = new Audio('music.mp3'); music.loop = true; music.preload = 'auto'; }
+    applyMusicVol();
+    musicOn = true;
+    var p = music.play();
+    if (p && p.catch) p.catch(function(){ musicOn = false; paintAudio(); toast('Không phát được nhạc, hãy bấm lại nút Nhạc nền'); });
+  } else {
+    if (music) music.pause();
+    musicOn = false;
+  }
+  paintAudio();
+}
+
+function paintAudio(){
+  var bm=$('bMusic'), br=$('bRead');
+  bm.classList.toggle('on', musicOn); bm.setAttribute('aria-pressed', musicOn);
+  $('musicTxt').textContent = musicOn ? 'Tắt nhạc' : 'Nhạc nền';
+  var playing = reading && !paused;
+  br.classList.toggle('on', playing); br.setAttribute('aria-pressed', playing);
+  $('readTxt').textContent = !reading ? 'Nghe đọc' : paused ? 'Đọc tiếp' : 'Tạm dừng';
+  $('readIco').innerHTML = playing ? '<path d="M8 5v14M16 5v14"/>' : '<path d="M8 5l11 7-11 7z"/>';
+  $('bStop').hidden = !reading;
+}
+
+function viewText(){
+  return visibleArts().map(function(k){ return NARRATION[k] || ''; }).filter(Boolean).join(' ');
+}
+function splitChunks(t){
+  var out = [];
+  t.replace(/([.!?;:])\s+/g, '$1|').split('|').forEach(function(p){
+    p = p.trim(); if (!p) return;
+    if (p.length <= 170){ out.push(p); return; }
+    var cur = '', parts = p.split(/,\s+/);
+    parts.forEach(function(q, i){
+      var piece = q + (i < parts.length-1 ? ',' : '');
+      if (cur && (cur + ' ' + piece).length > 170){ out.push(cur.trim()); cur = piece; }
+      else cur = (cur + ' ' + piece).trim();
+    });
+    if (cur) out.push(cur.trim());
+  });
+  return out;
+}
+function viVoices(){ return synth ? synth.getVoices().filter(function(v){ return /^vi/i.test(v.lang); }) : []; }
+function pickVoice(){
+  var vs = viVoices();
+  if (voiceName){ for (var i=0;i<vs.length;i++) if (vs[i].name === voiceName) return vs[i]; }
+  return vs[0] || null;
+}
+function fillVoices(){
+  if (!synth) return;
+  var vs = viVoices(), sel = $('vSel');
+  sel.innerHTML = '';
+  var d = document.createElement('option'); d.value = '';
+  d.textContent = vs.length ? 'Tự động (tiếng Việt)' : 'Mặc định của thiết bị';
+  sel.appendChild(d);
+  vs.forEach(function(v){ var o = document.createElement('option'); o.value = v.name; o.textContent = v.name; sel.appendChild(o); });
+  sel.value = voiceName; if (sel.value !== voiceName) sel.value = '';
+}
+
+function speakFrom(i){
+  var my = ++tok; pos = i;
+  synth.cancel();
+  duck = true; applyMusicVol();
+  function step(){
+    if (my !== tok) return;
+    if (pos >= chunks.length){ finishView(my); return; }
+    var u = new SpeechSynthesisUtterance(chunks[pos]);
+    u.lang = 'vi-VN'; u.rate = rate;
+    var v = pickVoice(); if (v) u.voice = v;
+    u.onend = function(){ if (my !== tok) return; pos++; step(); };
+    u.onerror = function(e){
+      if (my !== tok) return;
+      if (e && (e.error === 'canceled' || e.error === 'interrupted')) return;
+      pos++; step();
+    };
+    synth.speak(u);
+  }
+  setTimeout(step, 80);
+}
+function startReadView(){
+  clearTimeout(readTimer);
+  chunks = splitChunks(viewText());
+  if (!chunks.length){
+    var my = ++tok; synth.cancel(); duck = false; applyMusicVol();
+    readTimer = setTimeout(function(){ if (my === tok && reading) finishView(my); }, 1800);
+    return;
+  }
+  speakFrom(0);
+}
+function scheduleRead(){
+  clearTimeout(readTimer);
+  tok++; if (synth) synth.cancel();
+  readTimer = setTimeout(function(){ if (reading && !paused) startReadView(); }, 650);
+}
+function finishView(my){
+  duck = false; applyMusicVol();
+  if (!reading || my !== tok) return;
+  if (!autoTurn || atEnd()){ stopRead(); if (atEnd()) toast('Đã đọc hết sách'); return; }
+  readTimer = setTimeout(function(){ if (my === tok && reading && !paused) next(); }, 600);
+}
+function startRead(){
+  if (!synth){ toast('Trình duyệt này chưa hỗ trợ đọc thành tiếng'); return; }
+  if (!warnedVoice && synth.getVoices().length && !viVoices().length){
+    warnedVoice = true;
+    toast('Máy chưa có giọng tiếng Việt, giọng đọc có thể không chuẩn');
+  }
+  reading = true; paused = false; readKey = visibleArts().join(',');
+  paintAudio(); startReadView();
+}
+function stopRead(){
+  reading = false; paused = false; tok++;
+  clearTimeout(readTimer);
+  if (synth) synth.cancel();
+  duck = false; applyMusicVol(); paintAudio();
+}
+function toggleRead(){
+  if (!reading){ startRead(); return; }
+  if (!paused){ paused = true; tok++; clearTimeout(readTimer); synth.cancel(); duck = false; applyMusicVol(); paintAudio(); }
+  else { paused = false; paintAudio(); if (chunks.length && pos < chunks.length) speakFrom(pos); else startReadView(); }
+}
+
+$('bMusic').onclick = function(){ setMusic(!musicOn); };
+$('bRead').onclick = toggleRead;
+$('bStop').onclick = stopRead;
+$('bAcfg').onclick = function(e){
+  e.stopPropagation();
+  var c = $('acfg'); c.hidden = !c.hidden; $('bAcfg').setAttribute('aria-expanded', !c.hidden);
+};
+document.addEventListener('click', function(e){
+  var c = $('acfg');
+  if (!c.hidden && !c.contains(e.target) && !$('bAcfg').contains(e.target)){ c.hidden = true; $('bAcfg').setAttribute('aria-expanded', 'false'); }
+});
+$('vSel').onchange = function(){ voiceName = this.value; saveAudio(); if (reading && !paused) speakFrom(Math.max(0, pos)); };
+$('rSel').onchange = function(){ rate = parseFloat(this.value) || 1; saveAudio(); if (reading && !paused) speakFrom(Math.max(0, pos)); };
+$('mVol').oninput = function(){ mVol = (+this.value) / 100; applyMusicVol(); saveAudio(); };
+$('autoTurn').onchange = function(){ autoTurn = this.checked; saveAudio(); };
+document.addEventListener('keydown', function(e){
+  if (e.target === pgIn || e.target === $('q') || /^(SELECT|INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if (e.key === 'm' || e.key === 'M'){ setMusic(!musicOn); }
+  else if (e.key === 'r' || e.key === 'R'){ toggleRead(); }
+});
+$('rSel').value = String(rate); if ($('rSel').value !== String(rate)) $('rSel').value = '1';
+$('mVol').value = Math.round(mVol * 100);
+$('autoTurn').checked = autoTurn;
+if (synth){ fillVoices(); synth.onvoiceschanged = fillVoices; }
+else { $('bRead').hidden = true; $('vSel').disabled = true; }
+window.addEventListener('pagehide', function(){ if (synth) synth.cancel(); });
+paintAudio();
 
 /* ---- khởi động ---- */
 scene.classList.add('noanim');

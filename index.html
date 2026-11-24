@@ -29,6 +29,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* sân khấu */
 .wrap{position:relative;flex:1;min-height:0;background:linear-gradient(rgba(10,14,28,.28),rgba(10,14,28,.28)),url(bg.jpg) center/cover no-repeat}
+.intro{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:linear-gradient(rgba(8,12,26,.55),rgba(8,12,26,.7)),url(bg.jpg) center/cover no-repeat;text-align:center}
+.intro[hidden]{display:none}
+.ibox{max-width:420px;color:#fff}
+.ibox small{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#f6d77d;margin-bottom:10px}
+.ibox h1{font-size:34px;line-height:1.15;margin:0 0 8px;font-weight:700}
+.ibox p{margin:0 0 26px;color:#e8ecf4;font-size:15px}
+.ibtn{display:block;width:100%;border:0;border-radius:999px;padding:14px 18px;font-size:16px;font-weight:700;margin-top:10px}
+.ibtn.go{background:#d4af5a;color:#111}
+.ibtn.q{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.4);font-weight:500;font-size:14px}
 .pgread{position:absolute;left:14px;bottom:14px;z-index:15;display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.35);background:rgba(10,11,15,.82);backdrop-filter:blur(6px);color:#fff;padding:9px 16px 9px 12px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .pgread[hidden]{display:none}.pgread:hover{background:rgba(212,175,90,.95);color:#111}.pgread.on{background:#d4af5a;color:#111}
 .pgread svg{width:18px;height:18px;fill:currentColor;stroke:none}
@@ -177,12 +186,14 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="abar" role="group" aria-label="Âm thanh">
       <button class="ab" id="bMusic" aria-pressed="false" title="Bật/tắt nhạc nền"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg><span class="lb" id="musicTxt">Nhạc nền</span></button>
       <button class="ab main" id="bRead" hidden aria-pressed="false" title="Nghe đọc trang đang xem"><svg id="readIco" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg><span class="lb" id="readTxt">Nghe đọc</span></button>
+      <button class="ab" id="bMute" hidden title="Tắt hết âm thanh để tự đọc" aria-label="Tắt hết âm thanh"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4zM22 9l-6 6M16 9l6 6"/></svg><span class="lb">Tắt hết</span></button>
       <button class="ab" id="bStop" title="Dừng đọc" aria-label="Dừng đọc" hidden><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg></button>
       <button class="ab" id="bAcfg" aria-expanded="false" title="Âm lượng nhạc nền" aria-label="Cài đặt âm thanh"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
     </div>
   </div>
 </div>
 
+<div class="intro" id="intro"><div class="ibox"><small>Vietcombank Chi nhánh Hùng Vương</small><h1>Hành trình 20 năm</h1><p>Kiến tạo giá trị, tiếp nối hành trình</p><button class="ibtn go" id="iGo" type="button">▶ Mở sách có nhạc và giọng đọc</button><button class="ibtn q" id="iQuiet" type="button">Tự đọc, không âm thanh</button></div></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="veil" id="veil"></div>
 <aside class="drawer" id="drawer" aria-label="Mục lục" aria-hidden="true">
@@ -546,6 +557,7 @@ function paintAudio(){
   $('readTxt').textContent = !reading ? 'Nghe đọc' : paused ? 'Đọc tiếp' : 'Tạm dừng';
   $('readIco').innerHTML = playing ? '<path d="M8 5v14M16 5v14"/>' : '<path d="M8 5l11 7-11 7z"/>';
   $('bStop').hidden = !reading;
+  $('bMute').hidden = !(musicOn || reading);
 }
 
 function viewText(){
@@ -619,30 +631,20 @@ function playItems(arts){
       var a = new Audio(vfile(k)); vAudio = a; a.playbackRate = rate;
       a.onended = nx; a.onerror = nx;
       var p = a.play(); if (p && p.catch) p.catch(nx);
-    } else {
-      var cs = splitChunks(NARRATION[k]), j = 0;
-      (function sp(){
-        if (my !== tok) return;
-        if (j >= cs.length){ nx(); return; }
-        var u = new SpeechSynthesisUtterance(cs[j++]); u.lang = 'vi-VN'; u.rate = rate;
-        var v = pickVoice(); if (v) u.voice = v;
-        u.onend = sp; u.onerror = function(e){ if (e && (e.error==='canceled'||e.error==='interrupted')) return; sp(); };
-        if (synth) synth.speak(u); else nx();
-      })();
-    }
+    } else { nx(); }
   }
   nx();
 }
 function startReadView(){
   clearTimeout(readTimer);
   var fl = filesForView(); if (fl){ playItems(fl); return; }
-  chunks = splitChunks(viewText());
-  if (!chunks.length){
+  var arts = visibleArts(), last = arts[arts.length-1], mx = Math.max.apply(null, VOICE_PAGES.concat([0]));
+  if (autoTurn && !atEnd() && last < mx){
     var my = ++tok; KV(); duck = false; applyMusicVol();
-    readTimer = setTimeout(function(){ if (my === tok && reading) finishView(my); }, 1800);
+    readTimer = setTimeout(function(){ if (my === tok && reading && !paused) next(); }, 1100);
     return;
   }
-  speakFrom(0);
+  stopRead();
 }
 function scheduleRead(){
   clearTimeout(readTimer);
@@ -656,11 +658,7 @@ function finishView(my){
   readTimer = setTimeout(function(){ if (my === tok && reading && !paused) next(); }, 600);
 }
 function startRead(){
-  if (!synth && !filesForView()){ toast('Trình duyệt này chưa hỗ trợ đọc thành tiếng'); return; }
-  if (!warnedVoice && synth && !filesForView() && synth.getVoices().length && !viVoices().length){
-    warnedVoice = true;
-    toast('Máy chưa có giọng tiếng Việt, giọng đọc có thể không chuẩn');
-  }
+  if (!filesForView()){ toast('Trang này chưa có giọng đọc'); return; }
   reading = true; paused = false; readKey = visibleArts().join(',');
   paintAudio(); startReadView();
 }
@@ -686,9 +684,9 @@ function paintPg(){
   $('pgIco').innerHTML = on ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>' : '<path d="M8 5l11 7-11 7z"/>';
 }
 var _pa = paintAudio; paintAudio = function(){ _pa(); paintPg(); };
-$('pgRead').onclick = function(){ if (reading && !paused) stopRead(); else { if (reading) stopRead(); startRead(); } };
+$('pgRead').onclick = function(){ if (reading && !paused) stopRead(); else { if (reading) stopRead(); autoTurn = false; startRead(); } };
 var musicOff = false; try{ musicOff = localStorage.getItem('vcb-music') === 'off'; }catch(e){}
-function autoMusic(){ if (!musicOff && !musicOn) setMusicQuiet(); }
+function autoMusic(){ return; }
 function setMusicQuiet(){
   if (!music){ music = new Audio('music.mp3'); music.loop = true; music.preload = 'auto'; }
   applyMusicVol(); var p = music.play();
@@ -697,10 +695,16 @@ function setMusicQuiet(){
 ['pointerdown','keydown','touchend'].forEach(function(ev){
   document.addEventListener(ev, function f(){ document.removeEventListener(ev, f, true); autoMusic(); }, true);
 });
-autoMusic();
+$('iGo').onclick = function(){
+  $('intro').hidden = true; musicOff = false;
+  try{ localStorage.setItem('vcb-music','on'); }catch(e){}
+  setMusic(true); autoTurn = true; startRead();
+};
+$('iQuiet').onclick = function(){ $('intro').hidden = true; musicOff = true; };
 $('bMusic').onclick = function(){ var w = !musicOn; try{ localStorage.setItem('vcb-music', w ? 'on' : 'off'); }catch(e){} musicOff = !w; setMusic(w); };
 $('bRead').onclick = toggleRead;
 $('bStop').onclick = stopRead;
+$('bMute').onclick = function(){ stopRead(); setMusic(false); try{ localStorage.setItem('vcb-music','off'); }catch(e){} toast('Đã tắt âm thanh, bạn có thể tự đọc'); };
 $('bAcfg').onclick = function(e){
   e.stopPropagation();
   var c = $('acfg'); c.hidden = !c.hidden; $('bAcfg').setAttribute('aria-expanded', !c.hidden);

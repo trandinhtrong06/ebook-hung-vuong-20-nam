@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hành trình Vietcombank Hùng Vương – 20 năm</title>
 <style>
-:root{--bg:#1c1f2e;--bar:#0a0b0f;--gold:#d4af5a;--ink:#f3efe6;--mute:#9aa0b4;--paper:#fff6ee}
+:root{--bg:#0b3b29;--bar:#05432c;--gold:#8cc63f;--ink:#f1f7ee;--mute:#a7c8b5;--paper:#fff6ee}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;cursor:pointer}
 .app{position:fixed;inset:0;display:flex;flex-direction:column}
 
 /* thanh công cụ */
-.bar{flex:none;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 6px) 12px 6px;background:var(--bar);border-bottom:1px solid #1d2030;z-index:20;min-height:52px}
+.bar{flex:none;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 6px) 12px 6px;background:var(--bar);border-bottom:1px solid #0f6a46;z-index:20;min-height:52px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 0}
 .brand i{width:3px;height:30px;background:var(--gold);border-radius:2px;flex:none}
-.brand b{display:block;font-size:13px;line-height:1.2;color:#f6d77d;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand b{display:block;font-size:13px;line-height:1.2;color:#c8ec96;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand small{display:block;font-size:11px;color:var(--mute);margin-top:2px}
 .ctrl,.tools{display:flex;align-items:center;gap:2px;flex:none}
 .tools{flex:1 1 0;justify-content:flex-end}
 .ib{width:38px;height:38px;border:0;background:transparent;border-radius:8px;display:grid;place-items:center;color:#e9e6dc}
-.ib:hover:not(:disabled){background:#1c2030}
+.ib:hover:not(:disabled){background:#0d5a3b}
 .ib:disabled{opacity:.3;cursor:default}
 .ib:focus-visible,.pg input:focus-visible,.nav:focus-visible,.th:focus-visible,.toc button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .ib svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -28,19 +28,21 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pg input{width:64px;height:30px;text-align:center;border:0;border-radius:6px;background:#fff;color:#111;font:600 13px system-ui,sans-serif}
 
 /* sân khấu */
-.wrap{position:relative;flex:1;min-height:0;background:linear-gradient(rgba(10,14,28,.28),rgba(10,14,28,.28)),url(bg.jpg) center/cover no-repeat}
-.intro{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:linear-gradient(rgba(8,12,26,.55),rgba(8,12,26,.7)),url(bg.jpg) center/cover no-repeat;text-align:center}
+.wrap{position:relative;flex:1;min-height:0;background:linear-gradient(rgba(4,70,46,.32),rgba(4,70,46,.32)),url(bg.jpg) center/cover no-repeat}
+.intro{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:linear-gradient(rgba(3,52,34,.55),rgba(3,40,27,.78)),url(bg.jpg) center/cover no-repeat;text-align:center}
 .intro[hidden]{display:none}
 .ibox{max-width:420px;color:#fff}
-.ibox small{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#f6d77d;margin-bottom:10px}
+.ibox small{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#c8ec96;margin-bottom:10px}
 .ibox h1{font-size:34px;line-height:1.15;margin:0 0 8px;font-weight:700}
 .ibox p{margin:0 0 26px;color:#e8ecf4;font-size:15px}
 .ibtn{display:block;width:100%;border:0;border-radius:999px;padding:14px 18px;font-size:16px;font-weight:700;margin-top:10px}
-.ibtn.go{background:#d4af5a;color:#111}
+.ibtn.go{background:#8cc63f;color:#04281a}
 .ibtn.q{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.4);font-weight:500;font-size:14px}
-.pgread{position:absolute;left:14px;bottom:14px;z-index:15;display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.35);background:rgba(10,11,15,.82);backdrop-filter:blur(6px);color:#fff;padding:9px 16px 9px 12px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.4)}
-.pgread[hidden]{display:none}.pgread:hover{background:rgba(212,175,90,.95);color:#111}.pgread.on{background:#d4af5a;color:#111}
-.pgread svg{width:18px;height:18px;fill:currentColor;stroke:none}
+.pgread{position:absolute;left:14px;bottom:14px;z-index:15;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.3);background:rgba(4,48,31,.88);backdrop-filter:blur(10px);color:#fff;padding:7px 8px 7px 16px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.pgread[hidden]{display:none}.pgread .sw{position:relative;width:51px;height:31px;border-radius:999px;background:rgba(120,120,128,.55);transition:background .25s ease;flex:none}
+.pgread .sw i{position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.28),0 1px 1px rgba(0,0,0,.16);transition:transform .25s cubic-bezier(.3,.9,.3,1)}
+.pgread.on .sw{background:#34c759}.pgread.on .sw i{transform:translateX(20px)}
+.pgread:hover,.pgread.on{background:rgba(4,48,31,.88);color:#fff}
 
 .stage{position:absolute;inset:0;overflow:auto;display:flex;overscroll-behavior:contain}
 .scene{margin:auto;position:relative;flex:none;perspective:4200px}
@@ -75,18 +77,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 .app[data-fx=fade] .spage.gone,.app[data-fx=fade] .spage.far,.app[data-fx=fade] .spage.nxt{opacity:0;transform:scale(.96)}
 /* thanh âm thanh */
 .abarwrap{flex:none;position:relative;display:flex;justify-content:center;padding:6px 8px calc(env(safe-area-inset-bottom) + 8px);background:linear-gradient(to top,rgba(0,0,0,.25),rgba(0,0,0,0))}
-.abar{display:flex;gap:4px;align-items:center;background:rgba(10,11,15,.95);border:1px solid #2a2f44;border-radius:999px;padding:4px}
+.abar{display:flex;gap:4px;align-items:center;background:rgba(4,48,31,.96);border:1px solid #13724c;border-radius:999px;padding:4px}
 .ab{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:#e9e6dc;height:38px;padding:0 13px;border-radius:999px;font-size:13px;white-space:nowrap}
 .ab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.ab:hover{background:#1c2030}
-.ab.on{background:var(--gold);color:#241a02}
+.ab:hover{background:#0d5a3b}
+.ab.on{background:var(--gold);color:#052e1c}
 .ab.main{font-weight:600}
 .ab[hidden]{display:none}
 .ab:focus-visible,.acfg select:focus-visible,.acfg input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-.acfg{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);width:min(330px,94vw);background:#13151e;border:1px solid #2a2f44;border-radius:14px;padding:14px;display:grid;gap:12px;z-index:35;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.acfg{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);width:min(330px,94vw);background:#13151e;border:1px solid #13724c;border-radius:14px;padding:14px;display:grid;gap:12px;z-index:35;box-shadow:0 12px 40px rgba(0,0,0,.6)}
 .acfg[hidden]{display:none}
 .acfg label{display:grid;gap:6px;font-size:12px;color:var(--mute)}
-.acfg select{height:36px;background:#0d0f16;color:var(--ink);border:1px solid #2a2f44;border-radius:8px;padding:0 8px;font:14px system-ui,sans-serif;width:100%}
+.acfg select{height:36px;background:#04301f;color:var(--ink);border:1px solid #13724c;border-radius:8px;padding:0 8px;font:14px system-ui,sans-serif;width:100%}
 .acfg input[type=range]{width:100%;accent-color:var(--gold)}
 .acfg .row{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink);font-size:14px}
 .acfg .row input{width:20px;height:20px;accent-color:var(--gold)}
@@ -112,8 +114,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,92vw);background:#13151e;border-left:1px solid #262a3b;z-index:50;transform:translateX(102%);transition:transform .28s ease;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
 .drawer.on{transform:none}
 .dh{display:flex;align-items:center;gap:8px;padding:12px 12px 8px 16px}
-.dh h2{margin:0;font-size:15px;flex:1;color:#f6d77d}
-.search{margin:0 16px 8px;height:38px;border-radius:8px;border:1px solid #2a2f44;background:#0d0f16;color:var(--ink);padding:0 12px;font:14px system-ui,sans-serif;width:calc(100% - 32px)}
+.dh h2{margin:0;font-size:15px;flex:1;color:#c8ec96}
+.search{margin:0 16px 8px;height:38px;border-radius:8px;border:1px solid #13724c;background:#04301f;color:var(--ink);padding:0 12px;font:14px system-ui,sans-serif;width:calc(100% - 32px)}
 .dbody{overflow:auto;padding:0 8px 24px;flex:1}
 .toc{list-style:none;margin:0;padding:0}
 .toc button{width:100%;text-align:left;border:0;background:transparent;padding:9px 10px;border-radius:8px;display:flex;gap:10px;align-items:baseline}
@@ -163,7 +165,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   </header>
 
   <div class="wrap">
-    <button class="pgread" id="pgRead" type="button" hidden aria-label="Nghe đọc trang này"><svg viewBox="0 0 24 24" id="pgIco"><path d="M8 5l11 7-11 7z"/></svg><span id="pgTxt">Nghe trang này</span></button>
+    <button class="pgread" id="pgRead" type="button" role="switch" aria-checked="false" hidden aria-label="Đọc trang này"><span id="pgTxt">Đọc trang này</span><span class="sw"><i></i></span></button>
     <div class="stage" id="stage">
       <div class="scene" id="scene">
         <div class="book" id="book" role="group" aria-label="Sách lật trang">
@@ -536,7 +538,7 @@ function saveAudio(){ try{ localStorage.setItem('vcb-audio2', JSON.stringify({ra
 function applyMusicVol(){ if (music) music.volume = Math.max(0, Math.min(1, duck ? mVol*0.3 : mVol)); }
 function setMusic(on){
   if (on){
-    if (!music){ music = new Audio('music.mp3'); music.loop = true; music.preload = 'auto'; }
+    if (!music){ music = new Audio('nhac.mp3'); music.loop = true; music.preload = 'auto'; }
     applyMusicVol();
     musicOn = true;
     var p = music.play();
@@ -557,7 +559,11 @@ function paintAudio(){
   $('readTxt').textContent = !reading ? 'Nghe đọc' : paused ? 'Đọc tiếp' : 'Tạm dừng';
   $('readIco').innerHTML = playing ? '<path d="M8 5v14M16 5v14"/>' : '<path d="M8 5l11 7-11 7z"/>';
   $('bStop').hidden = !reading;
-  $('bMute').hidden = !(musicOn || reading);
+  var snd = musicOn || reading, bm = $('bMute');
+  bm.hidden = false; bm.classList.toggle('main', !snd);
+  bm.title = snd ? 'Tắt hết âm thanh để tự đọc' : 'Bật nhạc và giọng đọc';
+  bm.querySelector('.lb').textContent = snd ? 'Tắt hết' : 'Bật phát';
+  bm.querySelector('svg').innerHTML = snd ? '<path d="M11 5L6 9H3v6h3l5 4zM22 9l-6 6M16 9l6 6"/>' : '<path d="M8 5l11 7-11 7z" fill="currentColor"/>';
 }
 
 function viewText(){
@@ -680,15 +686,14 @@ function paintPg(){
   b.hidden = !has;
   var on = reading && !paused;
   b.classList.toggle('on', on);
-  $('pgTxt').textContent = on ? 'Dừng đọc' : 'Nghe trang này';
-  $('pgIco').innerHTML = on ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>' : '<path d="M8 5l11 7-11 7z"/>';
+  b.setAttribute('aria-checked', on ? 'true' : 'false');
 }
 var _pa = paintAudio; paintAudio = function(){ _pa(); paintPg(); };
 $('pgRead').onclick = function(){ if (reading && !paused) stopRead(); else { if (reading) stopRead(); autoTurn = false; startRead(); } };
 var musicOff = false; try{ musicOff = localStorage.getItem('vcb-music') === 'off'; }catch(e){}
 function autoMusic(){ return; }
 function setMusicQuiet(){
-  if (!music){ music = new Audio('music.mp3'); music.loop = true; music.preload = 'auto'; }
+  if (!music){ music = new Audio('nhac.mp3'); music.loop = true; music.preload = 'auto'; }
   applyMusicVol(); var p = music.play();
   if (p && p.then) p.then(function(){ musicOn = true; paintAudio(); }).catch(function(){});
 }
@@ -704,7 +709,12 @@ $('iQuiet').onclick = function(){ $('intro').hidden = true; musicOff = true; };
 $('bMusic').onclick = function(){ var w = !musicOn; try{ localStorage.setItem('vcb-music', w ? 'on' : 'off'); }catch(e){} musicOff = !w; setMusic(w); };
 $('bRead').onclick = toggleRead;
 $('bStop').onclick = stopRead;
-$('bMute').onclick = function(){ stopRead(); setMusic(false); try{ localStorage.setItem('vcb-music','off'); }catch(e){} toast('Đã tắt âm thanh, bạn có thể tự đọc'); };
+$('bMute').onclick = function(){
+  if (musicOn || reading){ stopRead(); setMusic(false); try{ localStorage.setItem('vcb-music','off'); }catch(e){} toast('Đã tắt âm thanh, bạn có thể tự đọc'); return; }
+  try{ localStorage.setItem('vcb-music','on'); }catch(e){}
+  musicOff = false; setMusic(true); autoTurn = false;
+  if (filesForView()) startRead(); else toast('Đã bật nhạc nền');
+};
 $('bAcfg').onclick = function(e){
   e.stopPropagation();
   var c = $('acfg'); c.hidden = !c.hidden; $('bAcfg').setAttribute('aria-expanded', !c.hidden);
